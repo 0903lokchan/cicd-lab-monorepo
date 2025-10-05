@@ -22,6 +22,8 @@ pipeline {
                         def workspace = "/home/jenkins/agent/workspace/seed-job"
                         
                         sh """
+                        helm repo add jenkins https://charts.jenkins.io
+                        helm repo update
                         helm upgrade jenkins jenkins/jenkins \\
                             --namespace jenkins \\
                             -f ${workspace}/values.yaml
