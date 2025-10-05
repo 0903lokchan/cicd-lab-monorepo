@@ -14,7 +14,7 @@ pipelineJob('monorepo-pipeline') {
                     branch('*/main')
                 }
             }
-            scriptPath('Jenkinsfile')
+            scriptPath('.jenkins/Jenkinsfile')
         }
     }
 }
