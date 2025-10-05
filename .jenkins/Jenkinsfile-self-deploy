@@ -19,14 +19,14 @@ pipeline {
                         echo "Configuration change detected. Applying Helm upgrade..."
                         // Note: We reference the repo by the 'seed-job' directory name
                         // as that's where the initial checkout happens.
-                        def workspace = "/home/jenkins/agent/workspace/seed-job"
+                        def workspace = "/home/jenkins/agent/workspace/jenkins-deploy"
                         
                         sh """
                         helm repo add jenkins https://charts.jenkins.io
                         helm repo update
                         helm upgrade jenkins jenkins/jenkins \\
                             --namespace jenkins \\
-                            -f ${workspace}/values.yaml
+                            -f ${workspace}/.jenkins/values.yaml
                         """
                     }
                 }
