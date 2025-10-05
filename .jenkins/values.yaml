@@ -19,7 +19,7 @@ controller:
                 name: "kubernetes"
                 # The internal URL for the Jenkins controller
                 jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
-                tunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+                jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
                 # Here we define the pod templates
                 templates:
                   - name: "jnlp-agent"
@@ -42,7 +42,7 @@ controller:
                       # This container has kubectl and helm installed
                       - name: "helm"
                         image: "alpine/k8s:1.27.3"
-                        command: "/busybox/cat"
+                        command: "cat"
                         ttyEnabled: true
       # This new block defines the seed job
       seed-job: |
@@ -69,4 +69,3 @@ controller:
       jenkins-description: |
         jenkins:
           systemMessage: "This Jenkins instance is managed by a self-deployment pipeline! 🚀"
-
