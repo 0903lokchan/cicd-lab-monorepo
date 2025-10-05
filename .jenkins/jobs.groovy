@@ -8,15 +8,32 @@ pipelineJob('monorepo-pipeline') {
         cpsScm {
             scm {
                 git {
-                    // Replace with your GitHub username
                     remote {
                         url('https://github.com/0903lokchan/cicd-lab-monorepo.git')
                     }
                     branch('*/main')
                 }
             }
-            // Tells Jenkins the name of the pipeline script file
             scriptPath('Jenkinsfile')
+        }
+    }
+}
+
+// Separate job for Jenkins self-deployment
+pipelineJob('jenkins-deploy') {
+    description('Pipeline to automatically deploy changes to Jenkins itself.')
+
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/0903lokchan/cicd-lab-monorepo.git')
+                    }
+                    branch('*/main')
+                }
+            }
+            scriptPath('.jenkins/Jenkinsfile-self-deploy')
         }
     }
 }

@@ -1,0 +1,34 @@
+pipeline {
+    agent {
+        label 'helm-agent'
+    }
+
+    triggers {
+        // Poll the Git repository every minute for changes
+        pollSCM('* * * * *')
+    }
+
+    stages {
+        stage('Deploy Jenkins Changes') {
+            when {
+                changeset "**/values.yaml, **/jobs.groovy, **/Jenkinsfile-self-deploy"
+            }
+            steps {
+                container('helm') {
+                    script {
+                        echo "Configuration change detected. Applying Helm upgrade..."
+                        // Note: We reference the repo by the 'seed-job' directory name
+                        // as that's where the initial checkout happens.
+                        def workspace = "/home/jenkins/agent/workspace/seed-job"
+                        
+                        sh """
+                        helm upgrade jenkins jenkins/jenkins \\
+                            --namespace jenkins \\
+                            -f ${workspace}/values.yaml
+                        """
+                    }
+                }
+            }
+        }
+    }
+}

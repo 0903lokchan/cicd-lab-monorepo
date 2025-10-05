@@ -29,6 +29,21 @@ controller:
                         image: "jenkins/inbound-agent:latest"
                         workingDir: "/home/jenkins/agent"
                         alwaysPullImage: true
+                  - name: "helm-agent"
+                    label: "helm-agent"
+                    # This tells the pod to use the 'jenkins' service account,
+                    # which the Helm chart already created with some permissions.
+                    serviceAccount: "jenkins"
+                    containers:
+                      - name: "jnlp"
+                        image: "jenkins/inbound-agent:latest"
+                        workingDir: "/home/jenkins/agent"
+                        alwaysPullImage: true
+                      # This container has kubectl and helm installed
+                      - name: "helm"
+                        image: "alpine/k8s:1.27.3"
+                        command: "/busybox/cat"
+                        ttyEnabled: true
       # This new block defines the seed job
       seed-job: |
         jobs:
