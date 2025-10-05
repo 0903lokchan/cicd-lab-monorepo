@@ -3,6 +3,11 @@ pipelineJob('monorepo-pipeline') {
     // A brief description for the job
     description('CI/CD pipeline for the monorepo application.')
 
+    triggers {
+        // Poll the Git repository every minute for changes
+        pollSCM('* * * * *')
+    }
+
     // This section configures the SCM, just like in the UI
     definition {
         cpsScm {

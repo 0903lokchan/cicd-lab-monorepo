@@ -44,7 +44,18 @@ controller:
                         image: "alpine/k8s:1.27.3"
                         command: "cat"
                         ttyEnabled: true
-      # This new block defines the seed job
+                  - name: "kaniko-agent"
+                    label: "kaniko-agent"
+                    containers:
+                      - name: "jnlp"
+                        image: "jenkins/inbound-agent:latest"
+                        workingDir: "/home/jenkins/agent"
+                        alwaysPullImage: true
+                      - name: "kaniko"
+                        image: "gcr.io/kaniko-project/executor:debug"
+                        imagePullPolicy: "Always"
+                        command: "cat"
+                        ttyEnabled: true
       seed-job: |
         jobs:
           - script: >
