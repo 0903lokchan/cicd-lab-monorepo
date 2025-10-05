@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Deploy Jenkins Changes') {
             when {
-                changeset "**/values.yaml, **/jobs.groovy, **/Jenkinsfile-self-deploy"
+                changeset ".jenkins/**"
             }
             steps {
                 container('helm') {
