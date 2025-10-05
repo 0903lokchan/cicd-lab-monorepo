@@ -1,4 +1,8 @@
 controller:
+  agentHost: "jenkins-agent.jenkins.svc.cluster.local"
+  installPlugins:
+    - "job-dsl:1.85"
+
   # This section is for Jenkins Configuration as Code (JCasC)
   JCasC:
     # This new line disables the chart's default JCasC scripts
@@ -15,6 +19,7 @@ controller:
                 name: "kubernetes"
                 # The internal URL for the Jenkins controller
                 jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+                tunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
                 # Here we define the pod templates
                 templates:
                   - name: "jnlp-agent"
@@ -24,3 +29,25 @@ controller:
                         image: "jenkins/inbound-agent:latest"
                         workingDir: "/home/jenkins/agent"
                         alwaysPullImage: true
+      # This new block defines the seed job
+      seed-job: |
+        jobs:
+          - script: >
+              freeStyleJob('seed-job') {
+                description('This job creates all other jobs from the repository.')
+                label('jnlp-agent')
+                scm {
+                  git {
+                    remote {
+                      url('https://github.com/0903lokchan/cicd-lab-monorepo.git')
+                    }
+                    branch('*/main')
+                  }
+                }
+                steps {
+                  jobDsl {
+                    // Tell the job where to find the DSL script(s)
+                    targets('.jenkins/jobs.groovy')
+                  }
+                }
+              }
