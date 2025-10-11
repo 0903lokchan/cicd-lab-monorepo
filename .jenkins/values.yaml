@@ -53,7 +53,7 @@ controller:
                         alwaysPullImage: true
                       - name: "kaniko"
                         image: "gcr.io/kaniko-project/executor:debug"
-                        imagePullPolicy: "Always"
+                        alwaysPullImage: true
                         command: "cat"
                         ttyEnabled: true
       seed-job: |
