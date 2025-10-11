@@ -79,4 +79,4 @@ controller:
               }
       jenkins-description: |
         jenkins:
-          systemMessage: "This Jenkins instance is managed by a self-deployment pipeline running Helm upgrade, how convenient! 🚀"
+          systemMessage: "This Jenkins instance is managed by a self-deployment pipeline! 🚀"
