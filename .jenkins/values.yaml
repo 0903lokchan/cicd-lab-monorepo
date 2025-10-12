@@ -1,6 +1,6 @@
 controller:
   agentHost: "jenkins-agent.jenkins.svc.cluster.local"
-  installPlugins:
+  additionalPlugins:
     - "job-dsl:1.85"
 
   # This section is for Jenkins Configuration as Code (JCasC)
